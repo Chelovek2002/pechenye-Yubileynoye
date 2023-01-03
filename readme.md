@@ -33,7 +33,7 @@ The project extends the second home assignment. Therefore, the used datasets inc
 - We also scrapped data on car brands’ sales in different countries for the corresponding year from [marklines.com](marklines.com )
 and downloaded data on real GDP per capita in 2018 from [worldbank.org](worldbank.org) (in 2015 US dollars).
 
-![]()
+![country_gdp_brand](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img00_country_gdp_brand.png)
 
 ## Step 2. Creating relevant topics 
 
@@ -43,6 +43,8 @@ Testing different values for the number of topics, we figured out that five topi
 We call these topics luxury, rural, power, patriotism (note, that responses were collected in the USA, 
 so for other countries it’s most likely an association with the USA, not local patriotism) and finance.
 
+![topics_word_clouds](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img01_topics_word_clouds.png)
+
 Then, we used TF–IDF to find the frequencies of all words for every car brand. 
 Finally, we picked out the top-50 words for each topic and each car brand from the previous results. 
 This data will be used in the following section.
@@ -51,9 +53,7 @@ This data will be used in the following section.
 
 The goal was to rate to what extent brands are similar to each topic. To do this, we used the jaccard similarity:
 
-$$
-J(A,B) = \frac {|A \cup B|} {|A \cap B|}
-$$
+![jaccard_similarity_formula](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img02_jaccard_similarity_formula.png)
 
 Why not use the scores that LDA provided?
 - LDA gives scores so that the sum of scores for categories is equal to one. 
@@ -69,6 +69,8 @@ However, there is also some noise in the estimation of similarity due to words-o
 Therefore, we also nullified all entries with the score less than 10%. 
 Here’s what we obtained (example sample of 5 brands):
 
+![scores](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img03_scores.png)
+
 ## Step 4. Running regression models 
 
 In order to check if, indeed, there is some relation between the car brand’s sales and the fact that it 
@@ -79,11 +81,11 @@ regressing market shares of brands in different countries on topic scores.
 
 We chose the following specification:
 
-![](C:\Users\Tagir\PycharmProjects\pechenye-Yubileynoye\images\general_reg.png)
+![general_reg](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img04_general_reg.png)
 
 The obtained results are as follows:
 
-
+![general_reg_results](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img05_general_reg_results.png)
 
 All coefficients on the variables of interest are statistically significant, meaning that indeed, there is a general influence of associations with these five topics on the brand’s market share. For example, associating with luxury decreases the brand’s share by 0.1 and associating with power increases it by 0.1. The full version of the table can be found in the file with code.
 
@@ -99,9 +101,13 @@ One more example is Greece, whereas many as 3 topics are significant. As we can 
 
 We also wanted to know if associations depend on GDP and not some innate quality. So we ran a simple linear regression of coefficients on GDP.
 
-The only significant coefficient is for luxury but it isn’t big in a real-world sense.
+![additional_reg_results](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img06_additional_reg_results.png)
+
+The only significant coefficient is for luxury, but it isn’t big in a real-world sense.
 
 ## Summing up the results
+
+![summary_corr_plot](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img07_summary_corr_plot.png)
 
 We came up with this table of correlative results. We can see that associations mostly don’t correlate with brands’ market shares (it means that other qualities, such as, for example, quality, affect them). An example of interpretation is: “rural” brands perform very well in India, compared to other brands.
 
