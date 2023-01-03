@@ -4,9 +4,16 @@
 
 ## The Problem Overview
 
-Different brands have different associations. Brands might strategically influence their customers to create these associations or, vice versa, they might adjust their policy to already existing associations. In this project we attempted to examine, what is the relation between an association that a brand has, and its sales. We were particularly interested in the following question: how associations affect sales of car brands? Or, to be more specific – do associations play a role in the difference of sales over countries?
+Different brands have different associations. 
+Brands might strategically influence their customers to create these associations or, vice versa, 
+they might adjust their policy to already existing associations. 
+In this project we attempted to examine, what is the relation between an association that a brand has, and its sales. 
+We were particularly interested in the following question: how associations affect sales of car brands? 
+Or, to be more specific – do associations play a role in the difference of sales over countries?
 
-This is a **descriptive** problem, but the results have practical usage. They can help decide how a brand should advertise in a given country or, if the brand is unable to change already existing associations, what countries it should enter.
+This is a **descriptive** problem, but the results have practical usage. 
+They can help decide how a brand should advertise in a given country or, 
+if the brand is unable to change already existing associations, what countries it should enter.
 
 Working over the project included several steps:
 1. Data collection and processing
@@ -23,13 +30,22 @@ Working over the project included several steps:
 The project extends the second home assignment. Therefore, the used datasets include:
 - collage_words.csv (the first dataset from HA2, includes data about associations of people with each brand)
 - Categories.csv (the second dataset from HA2, shows categories corresponding to each brand. We used it to extract data specifically on car brands)
-- We also scrapped data on car brands’ sales in different countries for the corresponding year from marklines.com and downloaded data on real GDP per capita in 2018 from worldbank.org (in 2015 US dollars).
+- We also scrapped data on car brands’ sales in different countries for the corresponding year from [marklines.com](marklines.com )
+and downloaded data on real GDP per capita in 2018 from [worldbank.org](worldbank.org) (in 2015 US dollars).
+
+![]()
 
 ## Step 2. Creating relevant topics 
 
-We used LDA to allocate words associated with car brands into topics. Testing different values for the number of topics, we figured out that five topics produce the best results (easily interpretable topics with little intersection between them). We call these topics luxury, rural, power, patriotism (note, that responses were collected in the USA, so for other countries it’s most likely an association with the USA, not local patriotism) and finance.
+We used LDA to allocate words associated with car brands into topics. 
+Testing different values for the number of topics, we figured out that five topics produce the best results 
+(easily interpretable topics with little intersection between them). 
+We call these topics luxury, rural, power, patriotism (note, that responses were collected in the USA, 
+so for other countries it’s most likely an association with the USA, not local patriotism) and finance.
 
-Then, we used TF–IDF to find the frequencies of all words for every car brand. Finally, we picked out the top-50 words for each topic and each car brand from the previous results. This data will be used in the following section.
+Then, we used TF–IDF to find the frequencies of all words for every car brand. 
+Finally, we picked out the top-50 words for each topic and each car brand from the previous results. 
+This data will be used in the following section.
 
 ## Step 3. Calculating scores
 
@@ -40,25 +56,30 @@ J(A,B) = \frac {|A \cup B|} {|A \cap B|}
 $$
 
 Why not use the scores that LDA provided?
-- LDA gives scores so that the sum of scores for categories is equal to one. So, each brand is at least 25% similar to at least one topic. But this is not necessarily true, as a brand may belong to some other categories that do not appear in the collages for some reason.
+- LDA gives scores so that the sum of scores for categories is equal to one. 
+- So, each brand is at least 25% similar to at least one topic. 
+- But this is not necessarily true, as a brand may belong to some other categories that do not appear in the collages for some reason.
 
 Why use Jaccard similarity?
-- Jaccard similarity ignores duplicates, which is useful in our case. The logic is that all words in top-50 are equally related to brand/topic and the difference in scores is only due to the variance in usage of words for describing collages.
+- Jaccard similarity ignores duplicates, which is useful in our case. 
+The logic is that all words in top-50 are equally related to brand/topic 
+- and the difference in scores is only due to the variance in usage of words for describing collages.
 
-However, there is also some noise in the estimation of similarity due to words-outliers. Therefore, we also nullified all entries with the score less than 10%. Here’s what we obtained (example sample of 5 brands):
+However, there is also some noise in the estimation of similarity due to words-outliers. 
+Therefore, we also nullified all entries with the score less than 10%. 
+Here’s what we obtained (example sample of 5 brands):
 
 ## Step 4. Running regression models 
 
-In order to check if, indeed, there is some relation between the car brand’s sales and the fact that it is associated with these five topics, we ran some regression models, regressing market shares of brands in different countries on topic scores. 
+In order to check if, indeed, there is some relation between the car brand’s sales and the fact that it 
+is associated with these five topics, we ran some regression models, 
+regressing market shares of brands in different countries on topic scores. 
 
 ### General model
 
 We chose the following specification:
 
-$$
-brand_market_share =  = 0 + 1luxury + 2rural + 3power + 4patriotism + 5finance +
-+  1country_dummy1 + ...
-$$
+![](C:\Users\Tagir\PycharmProjects\pechenye-Yubileynoye\images\general_reg.png)
 
 The obtained results are as follows:
 
