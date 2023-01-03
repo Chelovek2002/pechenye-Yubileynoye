@@ -53,7 +53,7 @@ This data will be used in the following section.
 
 The goal was to rate to what extent brands are similar to each topic. To do this, we used the jaccard similarity:
 
-![jaccard_similarity_formula](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/0d3315a1ad84c1970ca084ee1556a29acd1d488c/images/img02_jaccard_similarity_formula.png)
+![jaccard_similarity_formula](https://github.com/Chelovek2002/pechenye-Yubileynoye/blob/e54e7f578fdf0c5773467d0ac78e220554b46c5d/images/img02_jaccard_similarity_formula.png)
 
 Why not use the scores that LDA provided?
 - LDA gives scores so that the sum of scores for categories is equal to one. 
